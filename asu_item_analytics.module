@@ -1,0 +1,14 @@
+<?php
+
+/**
+ * Implements hook_help().
+ */
+function asu_item_analytics_help($route_name, RouteMatchInterface $route_match) {
+  switch ($route_name) {
+    case 'asu_item_analytics.json':
+      return '<p>Return analytics data in JSON format.</p>';
+
+    case 'asu_item_analytics.settings':
+      return '<p>Configure ASU Item Analytics settings.</p>';
+  }
+}

@@ -1,0 +1,20 @@
+asu_item_analytics.settings:
+  type: config_object
+  label: 'ASU Item Analytics settings'
+  mapping:
+    credentials_path:
+      type: string
+      label: 'Credentials File Path'
+      description: 'Enter the path to the credentials file.'
+    property_id:
+      type: string
+      label: 'Property ID'
+      description: 'Enter the Google Analytics property ID.'
+    event_name:
+      type: string
+      label: 'Event Name'
+      description: 'Enter the name of the event to report.'
+  required:
+    - credentials_path
+    - property_id
+    - event_name
