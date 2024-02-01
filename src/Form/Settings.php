@@ -75,7 +75,7 @@ class Settings extends ConfigFormBase {
     $config->set('event_name', $form_state->getValue('event_name'));
     $config->save();
 
-    drupal_set_message($this->t('Configuration saved successfully.'));
+    \Drupal::messenger()->addMessage($this->t('Configuration saved successfully.'));
   }
 
 }

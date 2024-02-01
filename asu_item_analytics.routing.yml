@@ -1,11 +1,14 @@
 asu_item_analytics.monthly:
-  path: '/asu-item-analytics/{node_id}/monthly'
+  path: '/asu-item-analytics/{node}/monthly'
   defaults:
     _controller: '\Drupal\asu_item_analytics\Controller\Controller::monthly'
     _title: 'ASU Item Analytics'
   requirements:
     _permission: 'access content'
-    node_id: '\d+'
+  options:
+    parameters:
+      node:
+        type: entity:node 
 
 asu_item_analytics.settings:
   path: '/admin/config/system/asu-item-analytics-settings'

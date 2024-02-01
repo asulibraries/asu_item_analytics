@@ -1,0 +1,5 @@
+name: 'ASU Item Analytics'
+type: module
+description: 'Provides analytics for items.'
+core_version_requirement: ^10
+package: Custom

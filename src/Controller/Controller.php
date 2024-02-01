@@ -5,6 +5,7 @@ namespace Drupal\asu_item_analytics\Controller;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\Url;
+use Drupal\node\NodeInterface;
 use Google\Analytics\Data\V1beta\Client\BetaAnalyticsDataClient;
 use Google\Analytics\Data\V1beta\DateRange;
 use Google\Analytics\Data\V1beta\Dimension;
@@ -51,15 +52,15 @@ class Controller extends ControllerBase {
   /**
    * Returns analytics data in JSON format.
    *
-   * @param int $nid
+   * @param NodeInterface $node
    *   The node ID from the path.
    *
    * @return \Symfony\Component\HttpFoundation\JsonResponse
    *   The JSON response.
    */
-  public function monthly($nid) {
+  public function monthly($node) {
 
-    $path = Url::fromRoute('entity.node.canonical', ['node' => $nid])->toString();
+    $path = $node->toUrl()->toString();
 
     $credentialsPath = $this->config->get('credentials_path');
     $client = new BetaAnalyticsDataClient(['credentials' => $credentialsPath]);
