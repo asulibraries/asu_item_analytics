@@ -7,23 +7,7 @@
         "type": "drupal-module"
     },
     "require": {
-        "php": ">=8.1",
         "ext-bcmath": "*",
-        "composer/installers": "^1.7",
         "google/apiclient": "^2.12"
-    },
-    "minimum-stability": "dev",
-    "prefer-stable": true,
-    "config": {
-        "sort-packages": true
-    },
-    "autoload": {
-        "classmap": [
-            "src/"
-        ]
-    },
-    "scripts": {
-        "drupal-phpunit-upgrade-check": "php ./vendor/bin/phpunit-upgrade-check",
-        "drupal-phpunit-upgrade": "@php ./vendor/bin/phpunit-upgrade ."
     }
 }
