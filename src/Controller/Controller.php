@@ -4,8 +4,6 @@ namespace Drupal\asu_item_analytics\Controller;
 
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Controller\ControllerBase;
-use Drupal\Core\Url;
-use Drupal\node\NodeInterface;
 use Google\Analytics\Data\V1beta\Client\BetaAnalyticsDataClient;
 use Google\Analytics\Data\V1beta\DateRange;
 use Google\Analytics\Data\V1beta\Dimension;
@@ -52,7 +50,7 @@ class Controller extends ControllerBase {
   /**
    * Returns analytics data in JSON format.
    *
-   * @param NodeInterface $node
+   * @param \Drupal\node\NodeInterface $node
    *   The node ID from the path.
    *
    * @return \Symfony\Component\HttpFoundation\JsonResponse
