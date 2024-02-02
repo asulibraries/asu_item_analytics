@@ -14,7 +14,7 @@
     fetch(`/asu-item-analytics/${nid}/monthly`).then(response => response.json()).then(data => {
         let download_count = Object.values(data).reduce((a, b) => parseInt(a) + parseInt(b), 0);
         // Hide if we don't have data for it.
-        if (download_count < 0) {
+        if (download_count < 1) {
             return;
         }
         // Display the download count
