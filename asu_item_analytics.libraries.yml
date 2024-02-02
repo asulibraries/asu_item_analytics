@@ -1,0 +1,6 @@
+item_block:
+  js:
+    js/item-analytics.js: {}
+  css:
+    theme:
+      css/item-analytics.css: {}
