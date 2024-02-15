@@ -21,10 +21,14 @@
         let block = document.getElementById("asu-item-analytics");
         if (!block) {return;}
         block.innerHTML = `
-<span data-toggle="tooltip" data-delay="0" title="Downloads since the beginning of 2024.">
-<i class="fas fa-info-circle"></i></span>
+<span tabindex="0" role="button" data-placement="bottom" data-toggle="popover" data-trigger="focus" title="Information" data-content="Downloads since the beginning of 2024."><i class="fas fa-info-circle"></i></span>
 Download count: ${download_count.toLocaleString()}
 `
         block.style.display = "block";
+
+        // Activate the info popover.
+        [].slice.call(block.querySelectorAll('[data-toggle="popover"]')).map(function (el) {
+          return new bootstrap.Popover(el)
+        })
     });
 }())

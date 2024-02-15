@@ -1,3 +1,9 @@
 #asu-item-analytics {
     display: none;
 }
+.popover-header {
+    display: none;
+}
+.popover-body {
+    background-color: #FBEAA0;
+}
