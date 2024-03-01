@@ -11,3 +11,16 @@ Requires configuration (`/admin/config/system/asu-item-analytics-settings`):
 The module includes a block for displaying the download count for the current page. We are using a twig tweak call in our templates to display the block rather than using the block placement configuration.
 
 To reduce page-load time, the block uses JavaScript to call a provided JSON endpoint to get monthly totals since the beginning of 2024. We simply total those and display it. Other visualizations or endpoints could be future enhancements.
+
+## Matomo Legacy Branch
+
+This branch is exploring an alternative model, closer to the previous one. In this case, rather than pulling live data, we pull from the API on a regular basis to update a download count table. This is the old model used for Matomo. The primary rationale for this is that the Google Analytics doesn't allow us to migrate in old item count data. So, if we want to preserve existing data, we need to reuse the existing model.
+
+The [existing query](src/Controller/Controller.php#L68-L128) could be re-written to get counts by path:
+
+```php
+$request->setDimensions([new Dimension(['name' => 'pagePath'])]);
+$request->setDimensionFilter(new FilterExpression([ 'filter' => new Filter(['field_name' => 'eventName', 'in_list_filter' => new InListFilter(['values'=>['resource_engagement']])])]));
+```
+
+We can also adjust the DateRange to be from the day of the last run through 'yesterday' to ensure we don't double-count events.
