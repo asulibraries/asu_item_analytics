@@ -137,4 +137,72 @@ class AnalyticsQueryService {
     return $data;
   }
 
+  /**
+   * Returns resource_engagement for all pages in a given date range.
+   *
+   * @param string $start_date
+   *   The start date in 'YYYY-mm-dd' format or 'yesterday' or 'today'.
+   * @param string $end_date
+   *   The end date in 'YYYY-mm-dd' format or 'yesterday' or 'today'.
+   *
+   * @return array
+   *   Array of event counts keyed by month (YYYY-mm).
+   */
+  public function allInDateRange($start_date = '2024-01-01', $end_date = 'yesterday') {
+
+    $credentialsPath = $this->config->get('credentials_path');
+    $client = new BetaAnalyticsDataClient(['credentials' => $credentialsPath]);
+    $propertyId = $this->config->get('property_id');
+    $eventName = $this->config->get('event_name');
+
+    $request = (new RunReportRequest())
+      ->setProperty('properties/' . $propertyId)
+      ->setDateRanges(
+        [
+          new DateRange(
+            [
+              // We started collecting data for the event in question in 2024.
+              'start_date' => $start_date,
+              'end_date' => $end_date,
+            ]
+          ),
+        ]
+    )
+      ->setDimensions(
+        [new Dimension(
+            [
+              'name' => 'pagePath',
+            ]
+          ),
+        ]
+    )
+      ->setDimensionFilter(
+        new FilterExpression(
+            [
+              'filter' => new Filter(
+                [
+                  'field_name' => 'eventName',
+                  'in_list_filter' => new InListFilter(['values' => [$eventName]]),
+                ]
+              ),
+            ]
+        )
+    )
+      ->setMetrics(
+        [new Metric(
+            [
+              'name' => 'eventCount',
+            ]
+          ),
+        ]
+    );
+    $response = $client->runReport($request);
+
+    $data = [];
+    foreach ($response->getRows() as $row) {
+      $data[$row->getDimensionValues()[0]->getValue()] = $row->getMetricValues()[0]->getValue();
+    }
+    return $data;
+  }
+
 }
