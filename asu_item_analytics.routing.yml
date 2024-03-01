@@ -6,6 +6,7 @@ asu_item_analytics.monthly:
   requirements:
     _permission: 'access content'
   options:
+    _dependency_injection: true
     parameters:
       node:
         type: entity:node 

@@ -1,0 +1,4 @@
+services:
+  asu_item_analytics.query:
+    class: Drupal\asu_item_analytics\Service\AnalyticsQueryService
+    arguments: ['@config.factory']
