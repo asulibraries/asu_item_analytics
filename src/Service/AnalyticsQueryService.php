@@ -146,7 +146,7 @@ class AnalyticsQueryService {
    *   The end date in 'YYYY-mm-dd' format or 'yesterday' or 'today'.
    *
    * @return array
-   *   Array of event counts keyed by month (YYYY-mm).
+   *   Array of event counts keyed by path (e.g. '/item/{nid}').
    */
   public function allInDateRange($start_date = '2024-01-01', $end_date = 'yesterday') {
 
