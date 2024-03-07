@@ -1,0 +1,54 @@
+<?php
+
+/**
+ * @file
+ */
+
+/**
+ *
+ */
+function asu_item_analytics_schema() {
+  return [
+    'item_analytic_counts' => [
+      'description' => 'Stores the item event counts by period.',
+      'fields' => [
+        'iid' => [
+          'description' => "The item's id this record affects.",
+          'type' => 'int',
+          'unsigned' => TRUE,
+          'not null' => TRUE,
+          'default' => 0,
+        ],
+        'type' => [
+          'description' => 'Item type. (E.g. node, taxonomy_term, or media.)',
+          'type' => 'varchar_ascii',
+          'length' => DRUPAL_EXTENSION_NAME_MAX_LENGTH,
+          'not null' => TRUE,
+          'default' => '',
+        ],
+        'event' => [
+          'description' => 'Event name we are tracking.',
+          'type' => 'varchar_ascii',
+          'length' => DRUPAL_EXTENSION_NAME_MAX_LENGTH,
+          'not null' => TRUE,
+          'default' => '',
+        ],
+        'period' => [
+          'description' => 'Period for the event count in the format "YYYY-mm".',
+          'type' => 'varchar_ascii',
+          'length' => 7,
+          'not null' => TRUE,
+          'default' => '',
+        ],
+        'count' => [
+          'description' => 'Event count for the item.',
+          'type' => 'int',
+          'not null' => TRUE,
+          'default' => 0,
+        ],
+      ],
+      'primary key' => ['iid', 'type', 'event', 'period'],
+      'indexes' => ['item' => ['iid', 'type']],
+    ],
+  ];
+}

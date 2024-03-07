@@ -24,3 +24,55 @@ $request->setDimensionFilter(new FilterExpression([ 'filter' => new Filter(['fie
 ```
 
 We can also adjust the DateRange to be from the day of the last run through 'yesterday' to ensure we don't double-count events.
+
+### Database Structure
+
+We can re-purpose a lot of the code in [asu_collection_extras](https://github.com/asulibraries/islandora-repo/tree/develop/web/modules/custom/asu_collection_extras); but we are using it differently, so we won't just tie into the exsiting ones.
+
+```php
+$schema = [
+    'item_analytic_counts' => [
+      'description' => 'Stores the item event counts by period.',
+      'fields' => [
+        'iid' => [
+          'description' => "The item's id this record affects.",
+          'type' => 'int',
+          'unsigned' => TRUE,
+          'not null' => TRUE,
+          'default' => 0,
+        ],
+        'type' => [
+          'description' => 'Item type. (E.g. node, taxonomy_term, or media.)',
+          'type' => 'varchar_ascii',
+          'length' => DRUPAL_EXTENSION_NAME_MAX_LENGTH,
+          'not null' => TRUE,
+          'default' => '',
+        ],
+        'event' => [
+          'description' => 'Event name we are tracking.',
+          'type' => 'varchar_ascii',
+          'length' => DRUPAL_EXTENSION_NAME_MAX_LENGTH,
+          'not null' => TRUE,
+          'default' => '',
+        ],
+        'period' => [
+          'description' => 'Period for the event count in the format "YYYY-mm".',
+          'type' => 'varchar_ascii',
+          'length' => 7,
+          'not null' => TRUE,
+          'default' => '',
+        ],
+        'count' => [
+          'description' => 'Event count for the item.',
+          'type' => 'int',
+          'not null' => TRUE,
+          'default' => 0,
+        ],
+      ],
+      'primary key' => ['iid', 'type', 'event', 'period'],
+      'indexes' => ['item' => ['iid','type']],
+    ],
+];
+```
+
+With this structure we can build a monthly download graph; although for now we will simply sum the counts for display. This also means updates simply updates for a given period and can avoid double-counting during updates.

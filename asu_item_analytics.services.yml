@@ -1,4 +1,10 @@
 services:
+  asu_item_analytics.ga_query:
+    class: Drupal\asu_item_analytics\Service\GoogleAnalyticsQueryService
+    arguments: ['@config.factory']
   asu_item_analytics.query:
     class: Drupal\asu_item_analytics\Service\AnalyticsQueryService
-    arguments: ['@config.factory']
+    arguments: ['@config.factory', '@database']
+  asu_item_analytics.update:
+    class: Drupal\asu_item_analytics\Service\AnalyticsUpdateService
+    arguments: ['@config.factory', '@database']
