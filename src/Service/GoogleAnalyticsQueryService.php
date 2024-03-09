@@ -46,6 +46,15 @@ class GoogleAnalyticsQueryService {
   }
 
   /**
+   * Get configured event code.
+   *
+   * @return string
+   *   The configured event code.
+   */
+  public function getEventCode() {
+    return $this->config->get('event_name');
+  }
+  /**
    * Returns resource_engagement for nodes by month.
    *
    * @param \Drupal\node\NodeInterface $node

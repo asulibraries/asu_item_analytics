@@ -31,9 +31,20 @@ We can re-purpose a lot of the code in [asu_collection_extras](https://github.co
 
 The new structure will allow a monthly download graph; although for now we will simply sum the counts for display. This also means updates simply updates for a given period and can avoid double-counting during updates.
 
-# TODO: 
+### Updating the Counts
 
-- Drush command to load Updated Google Analytics data.
+We now have a Drush command that will query the Google Analytics endpoint for item counts for either "this" or "last" month. A full load of "last" month's data took ~1.5 minutes and created records for 4,233 items.
+
+```sh
+drush --uri https://keep-dev.lib.asu.edu aia-gga last
+```
+
+We just need to run that on the first day of every month to get a final accounting of the past month.
+
+We can also cron "this" month on a regular basis to get updated current-month counts.
+
+## TODO: 
+
 - Possibly preprocess Matomo data for loading.
 - Drush command to load historic Matomo data.
 - New block for displaying the download count.

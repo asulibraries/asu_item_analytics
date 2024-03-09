@@ -1,0 +1,5 @@
+services:
+    asu_item_analytics.commands:
+        class: Drupal\asu_item_analytics\Commands\GatherAnalytics
+        tags:
+            - { name: drush.command }

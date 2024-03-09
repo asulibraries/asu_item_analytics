@@ -74,7 +74,7 @@ class AnalyticsUpdateService {
       throw new \Exception("Invalid period '$period'. Period must match the pattern 'YYYY-mm', e.g. '2024-01', with a month value between 1 and 12.");
     }
     if (!is_int($count) || $count < 0) {
-      throw new \Exception("Count must be an integer with the value zero or greater.");
+      throw new \Exception("Count ($count) must be an integer with the value zero or greater.");
     }
 
     // Update the table row.
