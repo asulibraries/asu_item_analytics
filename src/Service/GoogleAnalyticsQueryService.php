@@ -54,6 +54,7 @@ class GoogleAnalyticsQueryService {
   public function getEventCode() {
     return $this->config->get('event_name');
   }
+
   /**
    * Returns resource_engagement for nodes by month.
    *

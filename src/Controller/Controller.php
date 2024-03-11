@@ -3,7 +3,6 @@
 namespace Drupal\asu_item_analytics\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 /**
