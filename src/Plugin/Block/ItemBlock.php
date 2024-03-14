@@ -111,6 +111,7 @@ class ItemBlock extends BlockBase implements ContainerFactoryPluginInterface {
         ],
         // Attach the library to the block.
         '#attached' => ['library' => ['asu_item_analytics/item_block' => 'asu_item_analytics/item_block']],
+        '#cache' => ['contexts' => ['url.path']],
       ];
     }
     // No data found. Return nothing.
