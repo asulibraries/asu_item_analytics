@@ -114,7 +114,6 @@ class AnalyticsQueryService {
    *   If the date is invalid.
    */
   private function validateDate($date) {
-    $m = [];
     if (!preg_match('/^\d{4}-(\d{2})$/', $date, $matches) || $matches[1] > 12 || $matches[1] < 1) {
       throw new \Exception("Invalid period '$date'. Period must match the pattern 'YYYY-mm', e.g. '2024-01', with a month value between 1 and 12.");
     }

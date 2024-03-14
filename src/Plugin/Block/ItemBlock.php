@@ -87,8 +87,6 @@ class ItemBlock extends BlockBase implements ContainerFactoryPluginInterface {
     $count = array_sum($this->analyticsQueryService->entityMonthly($entity) ?? []);
     if ($count > 0) {
       return [
-      // '#type' => 'container',
-      //        '#attributes' => ['class' => 'asu-item-analytics'],
         'popover' => [
           '#type' => 'html_tag',
           '#tag' => 'span',
@@ -99,7 +97,7 @@ class ItemBlock extends BlockBase implements ContainerFactoryPluginInterface {
             'data-toggle' => 'popover',
             'data-trigger' => 'focus',
             'title' => 'Information',
-            'data-content' => 'Downloads since the beginning of XXXX.',
+            'data-content' => 'The repository began collecting download statistics in 2021.',
           ],
           'icon' => [
             '#type' => 'html_tag',

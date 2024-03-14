@@ -20,7 +20,6 @@ class Controller extends ControllerBase {
    *   The JSON response.
    */
   public function monthly($node) {
-    $path = $node->toUrl()->toString();
     $aq = \Drupal::service('asu_item_analytics.ga_query');
     $data = $aq->nodeMonthly($node);
     return new JsonResponse($data);
