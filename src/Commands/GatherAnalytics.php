@@ -4,6 +4,7 @@ namespace Drupal\asu_item_analytics\Commands;
 
 use Drupal\Component\Plugin\Exception\PluginNotFoundException;
 use Drush\Commands\DrushCommands;
+use Drush\Exceptions\UserAbortException;
 use Google\ApiCore\ApiException;
 
 /**
@@ -16,26 +17,40 @@ class GatherAnalytics extends DrushCommands {
   /**
    * Drush command to gather and populate Google Analytics data.
    *
-   * @param string $which_month
+   * @param string $user_period
    *   The period to collect data for. Valid options are 'this' and 'last'.
    *
    * @command asu_item_analytics:gatherGoogleAnalytics
    * @aliases aia-gga
-   * @usage asu_item_analytics:gatherGoogleAnalytics [this|last] --uri <site url>
+   * @usage asu_item_analytics:gatherGoogleAnalytics period --uri <site url>
    */
-  public function gatherGoogleAnalytics($which_month) {
+  public function gatherGoogleAnalytics($user_period) {
 
-    if (!in_array($which_month, ['this', 'last'])) {
-      $message = "Month value of '$which_month' is invalid. Please use either 'this' or 'last'.";
+    // Input validation.
+    $provided_time = strtotime($user_period);
+    if (!$provided_time) {
+      $message = "Provided period ('$user_period') is invalid.";
       \Drupal::logger('asu_item_analytics')->error($message);
       $this->io()->error($message);
       return;
     }
+
+    if ($provided_time < strtotime('2015-08-13') || $provided_time > strtotime('3000-01-01')) {
+      $message = "Provided period ('$user_period') is not between 2015-08-13 and 3000-01-01.";
+      \Drupal::logger('asu_item_analytics')->error($message);
+      $this->io()->error($message);
+      return;
+    }
+
     // Start and end are for the Google Query.
-    $start = date("Y-n-j", strtotime("first day of $which_month month"));
-    $end = date("Y-n-j", strtotime("last day of $which_month month"));
+    $start = date("Y-m-d", strtotime("first day of $user_period"));
+    $end = date("Y-m-d", strtotime("last day of $user_period"));
     // Period is for the update service.
-    $period = date("Y-m", strtotime("$which_month month"));
+    $period = date("Y-m", strtotime($user_period));
+
+    if (!$this->io()->confirm("Is the following period correct? {$period} ({$start}/{$end})")) {
+      throw new UserAbortException();
+    }
 
     try {
       // Grab the data from Google Analytics.
