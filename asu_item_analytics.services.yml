@@ -7,4 +7,4 @@ services:
     arguments: ['@config.factory', '@database']
   asu_item_analytics.update:
     class: Drupal\asu_item_analytics\Service\AnalyticsUpdateService
-    arguments: ['@config.factory', '@database']
+    arguments: ['@config.factory', '@database', '@cache_tags.invalidator']

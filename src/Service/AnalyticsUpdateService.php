@@ -2,6 +2,7 @@
 
 namespace Drupal\asu_item_analytics\Service;
 
+use Drupal\Core\Cache\CacheTagsInvalidator;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Database\Connection;
 use Drupal\Core\Entity\EntityInterface;
@@ -27,16 +28,26 @@ class AnalyticsUpdateService {
   protected $connection;
 
   /**
+   * Cache tags invalidator.
+   *
+   * @var Drupal\Core\Cache\CacheTagsInvalidator
+   */
+  protected $cacheInvalidator;
+
+  /**
    * Constructs a new Controller object.
    *
    * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
    *   The configuration factory.
    * @param \Drupal\Core\Database\Connection $connection
    *   The database service.
+   * @param \Drupal\Core\Cache\CacheTagsInvalidator $cacheInvalidator
+   *   Invalidate cache of updated entities so the block updates.
    */
-  public function __construct(ConfigFactoryInterface $config_factory, Connection $connection) {
+  public function __construct(ConfigFactoryInterface $config_factory, Connection $connection, CacheTagsInvalidator $cacheInvalidator) {
     $this->config = $config_factory->get('asu_item_analytics.settings');
     $this->connection = $connection;
+    $this->cacheInvalidator = $cacheInvalidator;
   }
 
   /**
@@ -45,7 +56,8 @@ class AnalyticsUpdateService {
   public static function create(ContainerInterface $container) {
     return new static(
         $container->get('config.factory'),
-        $container->get('database')
+        $container->get('database'),
+        $container->get('cache_tags.invalidator'),
     );
   }
 
@@ -76,11 +88,24 @@ class AnalyticsUpdateService {
       throw new \Exception("Count ($count) must be an integer with the value zero or greater.");
     }
 
-    // Update the table row.
-    $this->connection->merge('item_analytic_counts')
-      ->key(['iid' => $entity->id(), 'type' => $entity->getEntityTypeId(), 'event' => $event, 'period' => $period])
-      ->fields(['count' => $count])
-      ->execute();
+    $existing_count = $this->connection->select('item_analytic_counts', 'iac')
+      ->fields('iac', ['count'])
+      ->condition('iac.type', $entity->getEntityTypeId())
+      ->condition('iac.iid', $entity->id())
+      ->condition('iac.event', $event)
+      ->condition('iac.period', $period)
+      ->execute()->fetchField(0);
+    if ($count > $existing_count) {
+
+      // Update the table row.
+      $this->connection->merge('item_analytic_counts')
+        ->key(['iid' => $entity->id(), 'type' => $entity->getEntityTypeId(), 'event' => $event, 'period' => $period])
+        ->fields(['count' => $count])
+        ->execute();
+
+      // Invalidate the entity's cache so any related blocks get updated.
+      $this->cacheInvalidator->invalidateTags(["{$entity->getEntityTypeId()}:{$entity->id()}"]);
+    }
   }
 
 }
