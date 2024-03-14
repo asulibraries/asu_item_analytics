@@ -9,7 +9,7 @@
  */
 function asu_item_analytics_schema() {
   return [
-    'item_analytic_counts' => [
+    'item_analytics_counts' => [
       'description' => 'Stores the item event counts by period.',
       'fields' => [
         'iid' => [

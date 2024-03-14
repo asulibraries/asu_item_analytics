@@ -88,7 +88,7 @@ class AnalyticsUpdateService {
       throw new \Exception("Count ($count) must be an integer with the value zero or greater.");
     }
 
-    $existing_count = $this->connection->select('item_analytic_counts', 'iac')
+    $existing_count = $this->connection->select('item_analytics_counts', 'iac')
       ->fields('iac', ['count'])
       ->condition('iac.type', $entity->getEntityTypeId())
       ->condition('iac.iid', $entity->id())
@@ -98,7 +98,7 @@ class AnalyticsUpdateService {
     if ($count > $existing_count) {
 
       // Update the table row.
-      $this->connection->merge('item_analytic_counts')
+      $this->connection->merge('item_analytics_counts')
         ->key(['iid' => $entity->id(), 'type' => $entity->getEntityTypeId(), 'event' => $event, 'period' => $period])
         ->fields(['count' => $count])
         ->execute();

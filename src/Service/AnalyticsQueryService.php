@@ -77,7 +77,7 @@ class AnalyticsQueryService {
     }
 
     // Query.
-    $query = $this->connection->select('item_analytic_counts', 'iac')
+    $query = $this->connection->select('item_analytics_counts', 'iac')
       ->fields('iac', ['period'])
       ->condition('iac.iid', $entity->id())
       ->condition('iac.type', $entity->getEntityTypeId())
