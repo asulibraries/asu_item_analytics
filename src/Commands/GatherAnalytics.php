@@ -18,7 +18,7 @@ class GatherAnalytics extends DrushCommands {
    * Drush command to gather and populate Google Analytics data.
    *
    * @param string $user_period
-   *   The period to collect data for. Valid options are 'this' and 'last'.
+   *   Valid PHP date time format for the month to collect data for.
    *
    * @command asu_item_analytics:gatherGoogleAnalytics
    * @aliases aia-gga
