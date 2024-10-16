@@ -9,6 +9,9 @@
     "require": {
         "ext-bcmath": "*",
         "google/apiclient": "^2.15",
-	"google/analytics-data": "^0.16.0"
+        "google/analytics-data": "^0.16.0"
+    },
+    "conflict": {
+        "drupal/bootstrap_barrio": "<5.5"
     }
 }
