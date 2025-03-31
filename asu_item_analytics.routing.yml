@@ -17,3 +17,15 @@ asu_item_analytics.settings:
     _title: 'ASU Item Analytics Settings'
   requirements:
     _permission: 'administer site configuration'
+
+asu_item_analytics.record_track_play:
+  path: '/asu-item-analytics/track/{paragraph}/played'
+  defaults:
+    _controller: '\Drupal\asu_item_analytics\Controller\PerformanceArchive::played'
+    _title: 'ASU Performance Archive Track Played'
+  requirements:
+    _permission: 'access content'
+  options:
+    parameters:
+      paragraph:
+         type: entity:paragraph
