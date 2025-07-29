@@ -4,3 +4,9 @@ item_block:
   css:
     theme:
       css/item-analytics.css: {}
+
+mirador-analytics:
+  js:
+    js/mirador-analytics.js: {}
+  dependencies:
+    - islandora_mirador/viewer
