@@ -10,3 +10,10 @@ mirador-analytics:
     js/mirador-analytics.js: {}
   dependencies:
     - islandora_mirador/viewer
+    - asu_item_analytics/item_block
+
+download-counter:
+  js:
+    js/download-counter.js: {}
+  dependencies:
+    - asu_item_analytics/item_block
