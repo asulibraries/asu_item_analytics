@@ -1,19 +1,25 @@
 item_block:
   js:
-    js/item-analytics.js: {}
+    js/item-analytics-block.js: {}
   css:
     theme:
-      css/item-analytics.css: {}
+      css/item-analytics-block.css: {}
+  dependencies:
+    - asulib_barrio/global-styling # Ensure Bootstrap is loaded.
+
+core:
+  js:
+    js/item-analytics.js: {}
 
 mirador-analytics:
   js:
     js/mirador-analytics.js: {}
   dependencies:
     - islandora_mirador/viewer
-    - asu_item_analytics/item_block
+    - asu_item_analytics/core
 
 download-counter:
   js:
     js/download-counter.js: {}
   dependencies:
-    - asu_item_analytics/item_block
+    - asu_item_analytics/core
