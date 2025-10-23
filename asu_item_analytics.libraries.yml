@@ -23,3 +23,10 @@ download-counter:
     js/download-counter.js: {}
   dependencies:
     - asu_item_analytics/core
+
+
+pdfjs-analytics:
+  js:
+    js/pdfjs.js: {}
+  dependencies:
+    - asu_item_analytics/core
