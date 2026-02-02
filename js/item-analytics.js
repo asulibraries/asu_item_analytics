@@ -1,10 +1,33 @@
 /**
  * @file
- * Shared singleton for incrementing ASU item analytics once per page load.
+ * Debugging helper for ASU item analytics & shared singleton for incrementing ASU item analytics once per page load.
  *
- * Exposes: Drupal.asuItemAnalytics.incrementIfNeeded()
+ * Exposes:
+ *  - Drupal.asuItemAnalytics.debugEnabled()
+ *  - Drupal.asuItemAnalytics.incrementIfNeeded()
  */
 
+/**
+ * Determine if debug mode is enabled via URL parameter.
+ *
+ * Usage: Drupal.asuItemAnalytics.debugEnabled(), returns true if URL has ?debug
+ *
+ * Returns: boolean
+ */
+(function (Drupal) {
+  Drupal.asuItemAnalytics = Drupal.asuItemAnalytics || {};
+
+  Drupal.asuItemAnalytics.debugEnabled = () =>
+    new URLSearchParams(window.location.search).has('debug');
+})(Drupal);
+
+
+/**
+ * Singleton helper to increment ASU item analytics once per page load.
+ * Usage: Drupal.asuItemAnalytics.incrementIfNeeded()
+ *
+ * Returns: Promise that resolves to fetch response JSON or null.
+ */
 (function (Drupal, drupalSettings) {
   'use strict';
 
@@ -24,6 +47,9 @@
   Drupal.asuItemAnalytics.incrementIfNeeded = function () {
     // If already triggered this page load, no-op.
     if (triggered) {
+      if (Drupal.asuItemAnalytics.debugEnabled()) {
+        console.log('Analytics increment already triggered this page load; skipping.');
+      }
       return Promise.resolve(null);
     }
 

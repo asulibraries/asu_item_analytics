@@ -30,3 +30,9 @@ pdfjs-analytics:
     js/pdfjs.js: {}
   dependencies:
     - asu_item_analytics/core
+
+av-analytics:
+  js:
+    js/av-analytics.js: {}
+  dependencies:
+    - asu_item_analytics/core
